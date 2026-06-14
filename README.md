@@ -32,7 +32,6 @@ A full-stack URL Shortener application built using the MERN Stack (MongoDB, Expr
 
 ### Authentication
 - JSON Web Tokens (JWT)
-- bcrypt.js
 
 ### Authentication Page
 - User Signup
