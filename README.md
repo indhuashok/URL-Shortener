@@ -1,134 +1,181 @@
-﻿# URL-Shortener
-## You-Tube Link
-    https://youtu.be/V3tgSNQ7zlM
+## URL SHORTENER
+## Project Demo Video
+
+YouTube Video:
+https://youtu.be/V3tgSNQ7zlM
+
+
+## Netlify
+ https://app.netlify.com/projects/fantastic-eclair-5212aa/deploys/6a2d8eae13aa5e000853514f
 # Full Stack URL Shortener with Analytics
-A full-stack URL Shortener application built using the MERN Stack (MongoDB, Express.js, React.js, and Node.js). This application allows users to convert long URLs into short, shareable links while tracking detailed analytics such as clicks, user activity, and link performance.
-##  Features
-- User Authentication (Signup & Login)
-- JWT-based Authorization
-- URL Shortening
-- Custom Short URLs
-- URL Management Dashboard
-- Click Tracking & Analytics
-- Total Clicks & Unique Clicks Monitoring
-- Secure REST APIs
-- Responsive User Interface
-- MongoDB Atlas Integration
-##  Tech Stack
+
+A full-stack URL Shortener application built using the MERN Stack (MongoDB, Express.js, React.js, and Node.js). The application enables users to create shortened URLs, manage them through a personalized dashboard, and monitor link performance through analytics.
+## Features
+
+* User Authentication (Signup & Login)
+* JWT-based Authorization
+* URL Shortening
+* Custom Short URLs
+* Analytics Dashboard
+* Click Tracking
+* Responsive UI
+* Secure REST APIs
+* MongoDB Atlas Integration
+## Tech Stack
 
 ### Frontend
-- React.js
-- Tailwind CSS
-- Axios
-- React Router DOM
+
+* React.js
+* Tailwind CSS
+* Axios
+* React Router
 
 ### Backend
-- Node.js
-- Express.js
+
+* Node.js
+* Express.js
 
 ### Database
-- MongoDB Atlas
-- Mongoose
+
+* MongoDB Atlas
+* Mongoose
 
 ### Authentication
-- JSON Web Tokens (JWT)
 
-### Authentication Page
-- User Signup
-- User Login
+* JWT
+## Setup Instructions
 
-### Dashboard
-- View all shortened URLs
-- Manage links
-- Analytics Overview
-
-### Analytics
-- Total Clicks
-- Unique Clicks
-- Link Performance Tracking
-##  Installation
-### Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/url-shortener.git
 cd url-shortener
 ```
 
-### Backend Setup
+### 2. Backend Setup
 
 ```bash
 cd backend
-
 npm install
-
 npm run dev
 ```
 
-### Frontend Setup
+### 3. Frontend Setup
 
 ```bash
 cd frontend
-
 npm install
-
 npm start
 ```
-## Environment Variables
-Create a `.env` file inside the backend directory and add:
+
+### 4. Environment Variables
+
+Create a `.env` file inside the backend directory:
 
 ```env
 PORT=5000
-
 MONGODB_URI=your_mongodb_connection_string
-
-JWT_SECRET=your_jwt_secret_key
-
+JWT_SECRET=your_secret_key
 CLIENT_URL=http://localhost:3000
-##  Analytics Features
+```
+## Assumptions Made
 
-The application tracks:
+* Users must register and log in before creating shortened URLs.
+* MongoDB Atlas is used as the cloud database.
+* Each shortened URL is unique.
+* Analytics are tracked based on successful redirects.
+* Users can view only their own URLs and analytics.
+* Internet connectivity is available during application usage.
+* JWT tokens are used for securing protected routes.
+## AI Planning Document
 
-- Total Clicks
-- Unique Visitors
-- Link Usage Statistics
-- URL Performance Metrics
-- User-specific Analytics
-##  Project Structure
+### Problem Statement
+
+Build a secure URL shortening platform that allows users to:
+
+1. Create shortened URLs.
+2. Manage URLs from a dashboard.
+3. Monitor analytics for each shortened link.
+4. Securely authenticate and authorize users.
+
+### Planning Process
+
+#### Phase 1: Requirement Analysis
+
+* User Authentication
+* URL Shortening
+* Analytics Tracking
+* Dashboard Management
+
+#### Phase 2: System Design
+
+* Frontend using React
+* Backend using Express & Node.js
+* MongoDB Atlas database
+* JWT Authentication
+
+#### Phase 3: Implementation
+
+* Authentication APIs
+* URL Shortening APIs
+* Analytics APIs
+* Dashboard UI
+
+#### Phase 4: Testing
+
+* Authentication testing
+* URL redirection testing
+* Analytics validation
+* API testing
+
+
+## Architecture Diagram
+
+                ┌───────────────┐
+                │   React App   │
+                └───────┬───────┘
+                        │
+                 REST API Calls
+                        │
+                        ▼
+                ┌───────────────┐
+                │ Express Server│
+                └───────┬───────┘
+                        │
+         ┌──────────────┼──────────────┐
+         ▼                             ▼
+ ┌─────────────┐               ┌─────────────┐
+ │ JWT Auth    │               │ URL Service │
+ └─────────────┘               └──────┬──────┘
+                                      │
+                                      ▼
+                            ┌────────────────┐
+                            │ Analytics Logic│
+                            └──────┬─────────┘
+                                   │
+                                   ▼
+                           ┌──────────────┐
+                           │ MongoDB Atlas│
+                           └──────────────┘
+
+## Project Structure
 
 ```text
-project-root
-│
-├── frontend
-│   ├── src
-│   ├── public
-│   └── package.json
-│
-├── backend
-│   ├── controllers
-│   ├── models
-│   ├── routes
-│   ├── middleware
-│   ├── config
-│   └── server.js
-│
-└── README.md
-##  Workflow
+frontend/
+backend/
+README.md
+```
+## Future Enhancements
 
-1. User registers or logs in.
-2. User enters a long URL.
-3. Application generates a short URL.
-4. User shares the short URL.
-5. Every click is recorded.
-6. Analytics are displayed on the dashboard.
+* QR Code Generation
+* Geo-location Analytics
+* Device Analytics
+* Link Expiration
+* Custom Domains
+* Password-Protected URLs
 
-##  Key Learnings
+## Author
 
-- Full Stack Development using MERN
-- JWT Authentication & Authorization
-- REST API Development
-- MongoDB Database Design
-- Analytics Tracking
-- Secure Web Application Development
-- Frontend and Backend Integration
+Indhu A
 
 ##  This project is a part of a hackathon run by https://katomaran.com
