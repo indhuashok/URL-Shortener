@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { urlAPI } from '../services/api';
@@ -225,10 +226,13 @@ export default function Dashboard() {
     Visit
   </a>
 
-  <a href={'/analytics/' + url.shortCode} className="analytics-btn">
-    <BarChart3 size={13} />
-    Analytics
-  </a>
+  <Link 
+  to={`/analytics/${url.shortCode}`} 
+  className="analytics-btn"
+>
+  <BarChart3 size={13} />
+  Analytics
+</Link>
 
   <button
     className="delete-btn"
