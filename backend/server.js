@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -15,17 +16,42 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 30000,
       socketTimeoutMS: 45000,
     });
-    console.log('MongoDB connected');
+
+    console.log('✅ MongoDB connected');
   } catch (err) {
-    console.log('MongoDB connection error:', err.message);
+    console.log('❌ MongoDB connection error:', err.message);
     process.exit(1);
   }
 };
 
 connectDB();
 
-mongoose.connection.on('disconnected', () => console.log('MongoDB disconnected!'));
-mongoose.connection.on('error', (err) => console.log('MongoDB error:', err.message));
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️ MongoDB disconnected!');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.log('❌ MongoDB error:', err.message);
+});
+
+// Root Route (for Render)
+app.get('/', (req, res) => {
+  res.json({
+    message: 'URL Shortener API is running 🚀',
+    status: 'success'
+  });
+});
+
+// Health Check Route
+app.get('/health', (req, res) => {
+  res.json({
+    message: 'Backend is running',
+    mongoStatus:
+      mongoose.connection.readyState === 1
+        ? 'connected'
+        : 'disconnected'
+  });
+});
 
 // Routes
 const authRoutes = require('./routes/auth');
@@ -36,42 +62,52 @@ app.use('/api/auth', authRoutes);
 app.use('/api/urls', urlRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
-app.get('/health', (req, res) => {
-  res.json({ 
-    message: 'Backend is running',
-    mongoStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
-  });
-});
-
-// Redirect short URL
+// Redirect Short URL
 app.get('/:shortCode', async (req, res) => {
   try {
     const URL = require('./models/URL');
     const Analytics = require('./models/Analytics');
-    
+
     const { shortCode } = req.params;
+
     const url = await URL.findOne({ shortCode });
 
     if (!url) {
-      return res.status(404).json({ message: 'Short URL not found' });
+      return res.status(404).json({
+        message: 'Short URL not found'
+      });
     }
 
+    // Save analytics
     await Analytics.create({
       urlId: url._id,
       userAgent: req.headers['user-agent'],
       referer: req.headers['referer'],
     });
 
+    // Update click count
     await URL.updateOne(
       { _id: url._id },
-      { $inc: { totalClicks: 1 }, lastVisited: new Date() }
+      {
+        $inc: { totalClicks: 1 },
+        lastVisited: new Date(),
+      }
     );
 
+    // Redirect
     res.redirect(url.originalURL);
+
   } catch (error) {
-    res.status(500).json({ message: 'Error redirecting', error: error.message });
+    res.status(500).json({
+      message: 'Error redirecting',
+      error: error.message,
+    });
   }
 });
 
+// Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
