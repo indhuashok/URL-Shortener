@@ -25,6 +25,8 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { user, logout } = useAuth();
+  const BACKEND_URL =
+  process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
     fetchURLs();
@@ -206,25 +208,37 @@ export default function Dashboard() {
                     </p>
                   </div>
 
-                  <div className="url-actions">
-                    <button
-                      onClick={() => copyToClipboard('http://localhost:5000/' + url.shortCode)}
-                    >
-                      <Copy size={13} />
-                      Copy
-                    </button>
-                    <a href={'/analytics/' + url.shortCode} className="analytics-btn">
-                      <BarChart3 size={13} />
-                      Analytics
-                    </a>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDelete(url.shortCode)}
-                    >
-                      <Trash2 size={13} />
-                      Delete
-                    </button>
-                  </div>
+               <div className="url-actions">
+  <button
+    onClick={() => copyToClipboard(`${BACKEND_URL}/${url.shortCode}`)}
+  >
+    <Copy size={13} />
+    Copy
+  </button>
+
+  <a
+    href={`${BACKEND_URL}/${url.shortCode}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="visit-btn"
+  >
+    Visit
+  </a>
+
+  <a href={'/analytics/' + url.shortCode} className="analytics-btn">
+    <BarChart3 size={13} />
+    Analytics
+  </a>
+
+  <button
+    className="delete-btn"
+    onClick={() => handleDelete(url.shortCode)}
+  >
+    <Trash2 size={13} />
+    Delete
+  </button>
+</div>
+            
                 </div>
               ))}
             </div>
